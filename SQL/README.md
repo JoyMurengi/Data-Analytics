@@ -121,16 +121,6 @@ This analysis can support decisions such as:
 
 ---
 
-## Technologies Used
-
-- SQL
-- PostgreSQL (ANSI SQL compatible)
-- CSV datasets
-- Git
-- GitHub
-
----
-
 ## Skills Demonstrated
 
 - SQL
