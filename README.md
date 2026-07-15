@@ -19,3 +19,8 @@ The goal of this portfolio is to demonstrate my ability to:
 - Support data-driven decision-making
 
 ---
+| Project                                   | Tools   | Business Problem                   | Key Skills                               | Outcome                                                                                                                |
+| ----------------------------------------- | ------- | ---------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Public Transportation Operations Analysis | Python  | Analyze metro operations           | EDA, Visualization, Geospatial Analysis  | Identified peak service periods and operational improvement opportunities.                                             |
+| Pizza Sales Analysis                      | SQL     | Analyze restaurant sales           | SQL, Joins, Window Functions             | Identified highest-revenue products, peak demand hours, and category performance.                                      |
+| Device Financing Dashboard                | Tableau | Monitor loan portfolio performance | Tableau, KPI Reporting, Dashboard Design | Built an interactive dashboard that consolidates multiple financial metrics into a single, parameter-driven interface. |
