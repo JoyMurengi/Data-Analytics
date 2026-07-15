@@ -1,4 +1,4 @@
-# Device Financing & Loan Performance Dashboard | Tableau
+# Device Financing & Loan Performance Dashboard 
 
 An interactive Tableau dashboard built to monitor device financing performance, loan repayments, outstanding balances, and sales trends across multiple regions, shops, and mobile phone brands.
 
@@ -23,15 +23,14 @@ This dashboard provides decision-makers with an interactive way to:
 
 ## Dashboard Preview
 
-> Replace the images below with screenshots from your dashboard.
+> Here is a preview of 4 dashboards condensed into 1 using the parameter option :)
 <img width="1920" height="1080" alt="Screenshot 2026-07-15 223717" src="https://github.com/user-attachments/assets/5e4dd390-767d-46cb-bc91-a9777402ccbc" />
 
+<img width="1920" height="1080" alt="Screenshot 2026-07-15 223729" src="https://github.com/user-attachments/assets/37a760b7-2007-4f76-bb92-ee374f215396" />
 
-![Dashboard 1](images/dashboard1.png)
+<img width="1920" height="1080" alt="Screenshot 2026-07-15 223747" src="https://github.com/user-attachments/assets/7d52685b-b548-40e3-8adb-b8185a903259" />
 
-![Dashboard 2](images/dashboard2.png)
-
-![Dashboard 3](images/dashboard3.png)
+<img width="1920" height="1080" alt="Screenshot 2026-07-15 223800" src="https://github.com/user-attachments/assets/085cb906-2a98-4cb8-9cb8-9642cea13918" />
 
 ---
 
