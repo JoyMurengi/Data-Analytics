@@ -1,216 +1,129 @@
-# Device Financing & Loan Performance Dashboard 
+# 📊 Device Financing & Loan Performance Dashboard
 
-An interactive Tableau dashboard built to monitor device financing performance, loan repayments, outstanding balances, and sales trends across multiple regions, shops, and mobile phone brands.
+![Tableau](https://img.shields.io/badge/tool-Tableau%20Public-E97627)
+![BI](https://img.shields.io/badge/domain-Business%20Intelligence-blue)
+![Finance](https://img.shields.io/badge/domain-Loan%20Portfolio%20Analytics-success)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-The dashboard uses **dynamic parameters** and **calculated fields** to allow users to switch between multiple financial metrics without navigating to different dashboards, creating a cleaner and more scalable reporting solution.
+An interactive Tableau dashboard for monitoring device financing performance — loan repayments, outstanding balances, and sales trends across regions, shops, and mobile phone brands. Four separate metric views (sales, repayments, outstanding balance, interest) are condensed into a **single parameter-driven dashboard**, rather than four static ones, using dynamic parameters and calculated fields.
 
----
+**🔗 [Live Dashboard (Tableau Public)](https://public.tableau.com/views/TotalsalesDashboard1/Dashboard3?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)**
 
-## Project Overview
+**TL;DR**: One dashboard, one parameter, four KPIs — tracking **50,090 financed devices**, **KES 836.4M repaid**, and **KES 396.5M in outstanding balance** across regions, shops, and device brands (Apr–Jun 2024 sample window), with sub-second metric switching and zero dashboard duplication.
 
-Financial institutions need to monitor key lending metrics such as sales, repayments, and outstanding balances to understand portfolio performance and identify areas of financial risk.
+## Business Problem
 
-This dashboard provides decision-makers with an interactive way to:
+Device financing lenders need to monitor sales, repayments, and outstanding balances simultaneously to understand portfolio health and flag concentration risk by region, shop, or device brand. The naive approach — one dashboard per metric — multiplies maintenance work every time a KPI is added or a filter changes. This dashboard solves that with a single parameter-driven design: one set of visualizations that re-renders for whichever metric the user selects, cutting dashboard count from 4 to 1 without losing any of the underlying detail.
 
-- Track loan portfolio performance
-- Compare repayment behavior across regions and shops
-- Analyze sales trends over time
-- Monitor outstanding balances
-- Evaluate device brand performance
-- Switch between key business metrics using a single parameter
+## Table of Contents
+- [Dashboard Preview](#dashboard-preview)
+- [Data](#data)
+- [1. Dashboard Design & KPIs](#1-dashboard-design--kpis)
+- [2. Technical Implementation](#2-technical-implementation)
+- [3. Business Insights](#3-business-insights)
+- [4. How to Use](#4-how-to-use)
+- [Design Decisions & Known Limitations](#design-decisions--known-limitations)
+- [Next Steps](#next-steps)
+- [Tools & Skills](#tools--skills)
 
 ---
 
 ## Dashboard Preview
 
-> Here is a preview of 4 dashboards condensed into 1 using the parameter option :)
-<img width="1920" height="1080" alt="Screenshot 2026-07-15 223717" src="https://github.com/user-attachments/assets/5e4dd390-767d-46cb-bc91-a9777402ccbc" />
+*Four dashboards condensed into one using the parameter switch:*
 
-<img width="1920" height="1080" alt="Screenshot 2026-07-15 223729" src="https://github.com/user-attachments/assets/37a760b7-2007-4f76-bb92-ee374f215396" />
+<img width="1920" height="1080" alt="Total Sales by Province view" src="https://github.com/user-attachments/assets/5e4dd390-767d-46cb-bc91-a9777402ccbc" />
 
-<img width="1920" height="1080" alt="Screenshot 2026-07-15 223747" src="https://github.com/user-attachments/assets/7d52685b-b548-40e3-8adb-b8185a903259" />
+<img width="1920" height="1080" alt="Amount Repaid by Shop view" src="https://github.com/user-attachments/assets/37a760b7-2007-4f76-bb92-ee374f215396" />
 
-<img width="1920" height="1080" alt="Screenshot 2026-07-15 223800" src="https://github.com/user-attachments/assets/085cb906-2a98-4cb8-9cb8-9642cea13918" />
+<img width="1920" height="1080" alt="Outstanding Balance view" src="https://github.com/user-attachments/assets/7d52685b-b548-40e3-8adb-b8185a903259" />
 
----
-
-## Key Features
-
-- Interactive KPI dashboard
-- Dynamic metric selection using Tableau Parameters
-- Regional performance analysis
-- Shop-level performance monitoring
-- Device brand analysis
-- Time-series trend analysis
-- Loan status filtering
-- Month filtering
-- Clean and user-friendly dashboard design
+<img width="1920" height="1080" alt="Interest Paid Trend view" src="https://github.com/user-attachments/assets/085cb906-2a98-4cb8-9cb8-9642cea13918" />
 
 ---
 
-## Dashboard KPIs
+## Data
 
-The dashboard tracks several important business metrics, including:
+Transaction-level device financing records covering region (province), shop, device brand, loan status, and disbursement date, aggregated to four core KPIs:
 
-- Total Sales
-- Amount Repaid
-- Outstanding Balance
-- Interest Paid
-
-Example portfolio totals (April–June 2024):
-
-| Metric | Value |
-|---------|---------|
-| Total Sales | 50,090 Devices |
+| Metric | Value (Apr–Jun 2024 sample) |
+|---|---|
+| Total Sales | 50,090 devices |
 | Amount Repaid | KES 836,438,377 |
 | Outstanding Balance | KES 396,472,052 |
+| Interest Paid | tracked via the same parameter switch |
 
----
+Dimensions available for slicing: **Province**, **Shop**, **Device Brand**, **Loan Status**, **Day/Month of Date Created**.
 
-# Technical Implementation
+## 1. Dashboard Design & KPIs
 
-## Dynamic Metric Switching
+Core KPIs tracked: **Total Sales**, **Amount Repaid**, **Outstanding Balance**, **Interest Paid**. Rather than building a fixed dashboard per KPI, every worksheet — bar charts, trend lines, regional maps — references a single calculated field driven by one parameter, so all visuals update together and stay visually consistent regardless of which metric is selected.
 
-Instead of creating separate dashboards for every financial metric, a single dashboard dynamically updates all visualizations based on the user's selected metric.
+## 2. Technical Implementation
 
-This approach:
-
-- Reduces dashboard duplication
-- Improves maintainability
-- Enhances user experience
-- Makes future metric additions easier
-
----
-
-## Tableau Parameter
-
-**Parameter Name**
+**Parameter**
 
 ```
 Select Metric
 ```
+Available values: `Total Sales`, `Amount Repaid`, `Outstanding Balance`, `Interest Paid`
 
-**Available Values**
-
-- Total Sales
-- Amount Repaid
-- Outstanding Balance
-- Interest Paid
-
----
-
-## Calculated Field
-
-A calculated field determines which measure should be displayed based on the selected parameter.
+**Calculated field** — every chart in the dashboard references this single field:
 
 ```tableau
 CASE [Select Metric]
-
 WHEN "Total Sales" THEN [Total Sales]
-
 WHEN "Amount Repaid" THEN [Amount Repaid]
-
 WHEN "Outstanding Balance" THEN [Outstanding Balance]
-
 WHEN "Interest Paid" THEN [Interest Paid]
-
 END
 ```
 
-Every chart references this calculated field, allowing the entire dashboard to update instantly whenever the parameter changes.
+**Dynamic titles** — worksheet titles update automatically with the parameter (e.g. *"Total Sales by Province"* → *"Outstanding Balance by Province"*), so the metric currently on screen is never ambiguous.
+
+This pattern — one parameter, one calculated field, every visual wired to it — is what collapses four dashboards into one: adding a fifth KPI later means extending the `CASE` statement, not building a new dashboard.
+
+## 3. Business Insights
+
+- **Regional performance**: Eastern and Coast provinces recorded the highest sales volumes and repayment amounts. Coast Province also carries the largest outstanding balance — a higher concentration of financial risk in that region specifically, not just higher volume.
+- **Shop performance**: Otieno's Shop consistently ranked top across both sales and repayments — a candidate for case-study analysis on what's driving above-average performance there.
+- **Device performance**: TECNO had the highest unit volume financed; INFINIX generated the highest repayment value while also carrying the largest outstanding balance — worth flagging, since high repayment value alongside high outstanding balance can mean either high volume or slower repayment velocity, and the dashboard doesn't yet distinguish which.
+- **Sales trends**: disbursements and repayments peaked in mid-April before settling into a consistent weekly pattern through May and June.
+
+## 4. How to Use
+
+1. Open the [live dashboard](https://public.tableau.com/views/TotalsalesDashboard1/Dashboard3?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+2. Select a metric from the **Select Metric** parameter.
+3. Explore regional, shop, and device-level breakdowns.
+4. Filter by **Loan Status**, **Day of Date Created**, or **Month**.
+5. Compare portfolio performance across regions, shops, and brands under the selected metric.
 
 ---
 
-## Dynamic Dashboard Titles
+## Design Decisions & Known Limitations
 
-Worksheet titles automatically update using the selected parameter.
+Being upfront about what this dashboard does and doesn't do:
 
-Examples include:
+- **Extract-based, not live-connected**: the dashboard reflects a data snapshot as of the last extract refresh, not a real-time feed. Fine for portfolio review cadence, not for intraday monitoring.
+- **Aggregate-only, no drill-through to individual loans**: by design, for performance and (in a real deployment) data-privacy reasons — but it means an analyst spotting a risk signal at the shop or region level still has to go elsewhere for the underlying loan-level records.
+- **INFINIX's repayment-value vs. outstanding-balance pattern isn't decomposed** in the current dashboard — it can't yet distinguish "high volume, normal repayment behavior" from "slower repayment velocity specifically for this brand." That decomposition would need a repayment-rate or days-past-due metric added to the parameter set.
+- **Apr–Jun 2024 is a fixed sample window** shown here for illustration, not a live rolling date range — a production version would need this parameterized too.
 
-- Total Sales by Province
-- Outstanding Balance by Province
-- Amount Repaid by Shop
-- Interest Paid Trend
+## Next Steps
 
-This keeps the dashboard intuitive and eliminates ambiguity about the metric currently being displayed.
+- Add a repayment-rate / days-past-due metric to disambiguate high-value-but-slow-repaying segments (like the INFINIX pattern above) from genuinely high-performing ones.
+- Move from extract to a live or scheduled-refresh connection if the reporting cadence needs to tighten.
+- Add loan-level drill-through (row-level detail on click) for analysts investigating a flagged region or shop.
+- Parameterize the date range so the "current window" updates automatically rather than being hardcoded to a fixed quarter.
 
----
+## Tools & Skills
 
-# Business Insights
+**Tools**: Tableau Public · Parameters · Calculated Fields · CASE Statements · Interactive Filters · Time-Series Visualization
 
-### Regional Performance
-
-- Eastern and Coast provinces recorded the highest sales volumes and repayment amounts.
-- Coast Province also reported the largest outstanding balance, indicating a higher concentration of financial risk.
-
-### Shop Performance
-
-- Otieno's Shop consistently ranked as the top-performing shop across sales and repayments.
-
-### Device Performance
-
-- TECNO recorded the highest number of financed devices.
-- INFINIX generated the highest repayment value while also carrying the largest outstanding balance.
-
-### Sales Trends
-
-- Loan disbursements and repayments peaked in mid-April before stabilizing into consistent weekly patterns during May and June.
+**Skills demonstrated**: Business Intelligence · Dashboard Design · Data Visualization · KPI Development · Financial/Loan Portfolio Analysis · Interactive Reporting Architecture
 
 ---
 
-# Tools & Technologies
+## Author
 
-- Tableau Public
-- Parameters
-- Calculated Fields
-- CASE Statements
-- Interactive Filters
-- Time-Series Visualizations
-
----
-
-# Skills Demonstrated
-
-- Business Intelligence
-- Dashboard Design
-- Data Visualization
-- Tableau Parameters
-- Calculated Fields
-- Interactive Reporting
-- KPI Development
-- Financial Data Analysis
-- Loan Portfolio Analysis
-
----
-
-# How to Use
-
-1. Open the Tableau dashboard.
-2. Select a metric using the **Select Metric** parameter.
-3. Explore regional, shop, and device-level performance.
-4. Apply filters for:
-   - Loan Status
-   - Day of Date Created
-   - Month
-5. Analyze trends and compare portfolio performance across different business dimensions.
-
----
-
-# Dashboard
-
-View the interactive dashboard on Tableau Public:
-
-**🔗 Tableau Public:**  
-*https://public.tableau.com/views/TotalsalesDashboard1/Dashboard3?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link*
-
----
-
-# Author
-
-**Joy Murengi**
-
- Data Analyst | BI Developer | Data Scientist
-
-
-
----
+**Joy Murengi** — Data Analyst | BI Developer | Data Scientist
